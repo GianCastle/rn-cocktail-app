@@ -5,6 +5,15 @@
 - Yarn package manager
 - Expo v.35
 - Make sure you have an Android or iOS device with Expo Client installed. Also, you can use an Android or iOS emulator 
+  
+# Project Structure 🕋
+- RN-COCKTAIL-APP
+  - Components -> here lives our dummy components
+  - Domain -> on this folder lives our application Entities (like an API response structure, mappers structure, etc.)
+  - Screens -> this folders live our applications screens
+  - Utils -> here we define our utilities functions 
+- App -> our app entry point
+- routes.ts -> here we define the routes
 
 # Dependencies (what and whys)
 - **Redux** as our global state container and also is being a strong influencer of the complete project structure of our application. To be honest, using Redux in an application of this size only creates an unnecessary abstraction (which can also be called complexity). React provide us the Context API and Suspense with which we can solve the same needs that we solve with Redux (to have a global state, asynchronous actions, etc.).
