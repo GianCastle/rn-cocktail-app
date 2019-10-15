@@ -1,23 +1,14 @@
 import { getCocktailsSuggestions } from '../api/cocktailsApi';
-
-export interface IActionCreator {
-    type: string;
-    payload: any;
-    loading?: boolean;
-    drinks?: any[];
-}
+import { IActionCreator } from '../domain/IActionCreator';
 
 export const GET_COCKTAILS = 'GET_COCKTAILS';
-export const GET_COCKTAILS_SUCCESS = 'GET_COCKTAILS_SUCCESS';
-export const GET_COCKTAILS_REJECTED = 'GET_COCKTAILS_REJECTED';
-export const CLEAR_COCKTAILS = 'CLEAR_COCKTAILS';
-
 export const fetchData = (bool: boolean): IActionCreator => ({
     type: GET_COCKTAILS,
     payload: bool,
     drinks: [],
 })
 
+export const GET_COCKTAILS_SUCCESS = 'GET_COCKTAILS_SUCCESS';
 export const fetchDataSuccess = (data: any): IActionCreator => {
     return {
         type: GET_COCKTAILS_SUCCESS,
@@ -26,6 +17,7 @@ export const fetchDataSuccess = (data: any): IActionCreator => {
     }
 }
 
+export const GET_COCKTAILS_REJECTED = 'GET_COCKTAILS_REJECTED';
 export const fetchDataRejected = (error: string): IActionCreator => {
     return {
         type: GET_COCKTAILS_REJECTED,
@@ -35,7 +27,7 @@ export const fetchDataRejected = (error: string): IActionCreator => {
     }
 };
 
-
+export const CLEAR_COCKTAILS = 'CLEAR_COCKTAILS';
 export const clearCocktails = (): IActionCreator => {
     return {
         type: CLEAR_COCKTAILS,

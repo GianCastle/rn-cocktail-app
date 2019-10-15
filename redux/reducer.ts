@@ -1,11 +1,12 @@
-import { GET_COCKTAILS, GET_COCKTAILS_SUCCESS, GET_COCKTAILS_REJECTED, IActionCreator, CLEAR_COCKTAILS } from "./actions";
+import {
+    GET_COCKTAILS,
+    GET_COCKTAILS_SUCCESS,
+    GET_COCKTAILS_REJECTED,
+    CLEAR_COCKTAILS
+} from "./actions";
 
-interface ICocktailsState {
-    cocktails: any[];
-    loading: boolean;
-    errorMessage: string;
-}
-
+import { ICocktailsState } from '../domain/ICocktailState';
+import { IActionCreator } from "../domain/IActionCreator";
 
 const initialState: ICocktailsState = {
     cocktails: [],

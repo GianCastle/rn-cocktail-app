@@ -1,3 +1,5 @@
-export const getCocktailsSelector = (state) => state.cocktails.drinks;
-export const getCocktailsLoadingSelector = (state) => { console.log(state); return state.loading};
+import { ICocktailsState } from "../domain/ICocktailState";
+
+export const getCocktailsSelector = (state: ICocktailsState) =>  state.cocktails.drinks;
+export const getCocktailsLoadingSelector = (state) => state.loading;
 export const getCocktailsErrorSelector = (state) => state.errorMessage;
