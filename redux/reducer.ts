@@ -9,7 +9,7 @@ import { ICocktailsState } from '../domain/ICocktailState';
 import { IActionCreator } from "../domain/IActionCreator";
 
 const initialState: ICocktailsState = {
-    cocktails: [],
+    cocktails: { drinks: [] },
     loading: false,
     errorMessage: '',
 }
