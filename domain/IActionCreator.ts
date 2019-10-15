@@ -1,8 +1,6 @@
 import { ICocktail } from "./ICocktail";
+import { Action } from "redux";
 
-export interface IActionCreator {
-    type: string;
-    payload: any;
-    loading?: boolean;
-    drinks?: ICocktail[];
+export interface IActionData<T, P> extends Action<T> {
+    payload: P
 }
