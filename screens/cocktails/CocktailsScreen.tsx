@@ -26,6 +26,9 @@ const Screen: FC<ICocktailScreenProps> = (props) => {
 
         if (criteria.length >= 3)
             props.getCocktails(value);
+
+        else if (criteria.length <= 0)
+            props.clearCocktails() ;
     }
 
     const clearText = () => {
