@@ -6,7 +6,7 @@ import {
 } from "./actions";
 
 import { ICocktailsState } from '../domain/ICocktailState';
-import { IActionCreator } from "../domain/IActionCreator";
+import { IActionData } from "../domain/IActionCreator";
 
 const initialState: ICocktailsState = {
     cocktails: { drinks: [] },
@@ -14,7 +14,7 @@ const initialState: ICocktailsState = {
     errorMessage: '',
 }
 
-export const cocktailsReducer = (state = initialState, action: IActionCreator) => {
+export const cocktailsReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case GET_COCKTAILS:
             return { ...state, loading: action.payload, cocktails: [] };
