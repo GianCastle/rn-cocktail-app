@@ -1,4 +1,4 @@
-import React, { } from 'react';
+import React, { FC, useState } from 'react';
 import { View, Text, ActivityIndicator, FlatList, StyleSheet, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
@@ -13,67 +13,66 @@ import {
 } from './CocktailsScreenProps';
 
 import { TextInput } from 'react-native-gesture-handler';
+import { NavigationStackOptions } from 'react-navigation-stack';
+import { useNavigation } from 'react-navigation-hooks';
 
-interface ICocktailScreenState {
-    criteria: string;
-}
-class Screen extends React.Component<ICocktailScreenProps, ICocktailScreenState> {
+const Screen: FC<ICocktailScreenProps> = (props) => {
+    const [criteria, setCriteria] = useState<string>('');
+    const { cocktails, loading, error } = props;
+    const { navigate } = useNavigation();
 
-    readonly state = { cocktails: [], criteria: '' }
+    const onChangeInput = (value) => {
+        setCriteria(value);
 
-    static navigationOptions = {
-        header: null
+        if (criteria.length >= 3)
+            props.getCocktails(value);
     }
 
-    goBack = () => this.props.navigation.goBack();
-
-    onChangeInput = (value) => {
-        this.setState({criteria: value})
-        
-        if (this.state.criteria.length >= 3)
-            this.props.getCocktails(value);
+    const clearText = () => {
+        onChangeInput('')
+        props.clearCocktails();
     }
 
-    clearText = () => this.onChangeInput('')
-
-    render() {
-        const { cocktails, loading, error } = this.props;
-
-        return (
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-                        <Text style={styles.iconBack}>{' < '}</Text>
-                        <Text onPress={() => this.goBack()}>Back</Text>
-                    </View>
-                    <View style={styles.appTitle}>
-                        <Text>Cocktails Search</Text>
-                    </View>
-                    <View style={styles.cancelButton}>
-                        <Text onPress={this.clearText}>Cancel</Text>
-                    </View>
+    return (
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                    <Text style={styles.iconBack}>{' < '}</Text>
+                    <Text onPress={() => navigate('Home')}>Back</Text>
                 </View>
-                <TextInput
-                    style={styles.textInput}
-                    onChangeText={this.onChangeInput}
-                    value={this.state.criteria}
-                />
-
-                <SafeAreaView style={styles.container}>
-                    {(loading)
-                        ? <ActivityIndicator size="large" color="#5bcbea" />
-                        : <FlatList
-                            data={cocktails}
-                            renderItem={({ item }) => <CocktailCard {...item} />}
-                            keyExtractor={(item) => item.idDrink}
-                        />
-                    }
-
-                    <Text>{(error) ? error : ''}</Text>
-                </SafeAreaView>
+                <View style={styles.appTitle}>
+                    <Text>Cocktails Search</Text>
+                </View>
+                <View style={styles.cancelButton}>
+                    <Text onPress={clearText}>Cancel</Text>
+                </View>
             </View>
-        )
-    }
+            <TextInput
+                style={styles.textInput}
+                onChangeText={onChangeInput}
+                value={criteria}
+            />
+
+            <SafeAreaView style={styles.container}>
+                {(loading)
+                    ? <ActivityIndicator size="large" color="#5bcbea" />
+                    : <FlatList
+                        data={cocktails}
+                        renderItem={({ item }) => <CocktailCard {...item} />}
+                        keyExtractor={(item) => item.idDrink}
+                    />
+                }
+                <Text style={{ fontSize: 20, color: 'red' }}>
+                    {error.error}
+                </Text>
+
+            </SafeAreaView>
+        </View>
+    )
+}
+
+Screen.navigationOptions = {
+    header: null,
 }
 
 const styles = StyleSheet.create({
