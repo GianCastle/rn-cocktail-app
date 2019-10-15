@@ -1,15 +1,16 @@
 import { NavigationNavigatorProps } from 'react-navigation';
 import { getCocktailsErrorSelector, getCocktailsSelector, getCocktailsLoadingSelector } from '../../redux/selectors';
 import { bindActionCreators } from 'redux';
-import { getCocktails } from '../../redux/actions';
+import { getCocktails, clearCocktails } from '../../redux/actions';
 
 export interface ICocktailScreenProps extends NavigationNavigatorProps {
     cocktails: any[];
     loading: boolean;
-    error: string;
+    error: any;
     navigation: any; //let's keep as `any` for now to avoid linting errors
 
     getCocktails: (criteria: string) => any;
+    clearCocktails: () => void;
 }
 
 export const mapStateToProps = (state) => ({
@@ -25,5 +26,6 @@ export interface ICockTailScreenState {
 }
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
-    getCocktails: getCocktails
+    getCocktails: getCocktails,
+    clearCocktails: clearCocktails
 }, dispatch)

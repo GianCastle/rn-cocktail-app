@@ -28,17 +28,20 @@ class Screen extends React.Component<ICocktailScreenProps, ICocktailScreenState>
     goBack = () => this.props.navigation.goBack();
 
     onChangeInput = (value) => {
-        this.setState({criteria: value})
-        
+        this.setState({ criteria: value })
+
         if (this.state.criteria.length >= 3)
             this.props.getCocktails(value);
     }
 
-    clearText = () => this.onChangeInput('')
+    clearText = () => {
+        this.onChangeInput('')
+        this.props.clearCocktails();
+    }
 
     render() {
         const { cocktails, loading, error } = this.props;
-
+        console.log(loading);
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -68,8 +71,10 @@ class Screen extends React.Component<ICocktailScreenProps, ICocktailScreenState>
                             keyExtractor={(item) => item.idDrink}
                         />
                     }
-
-                    <Text>{(error) ? error : ''}</Text>
+                    <Text style={{ fontSize: 20, color: 'red' }}>
+                        {error.error}
+                    </Text>
+                    
                 </SafeAreaView>
             </View>
         )

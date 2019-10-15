@@ -1,19 +1,21 @@
-import { isOk, isEmptySearch } from '../utils/ApiUtils';
-import { API_URL } from '../utils/ApiUtils';
+import { getCocktailsSuggestions } from '../api/cocktailsApi';
 
 export interface IActionCreator {
     type: string;
     payload: any;
     loading?: boolean;
+    drinks?: any[];
 }
 
 export const GET_COCKTAILS = 'GET_COCKTAILS';
 export const GET_COCKTAILS_SUCCESS = 'GET_COCKTAILS_SUCCESS';
 export const GET_COCKTAILS_REJECTED = 'GET_COCKTAILS_REJECTED';
+export const CLEAR_COCKTAILS = 'CLEAR_COCKTAILS';
 
 export const fetchData = (bool: boolean): IActionCreator => ({
     type: GET_COCKTAILS,
     payload: bool,
+    drinks: [],
 })
 
 export const fetchDataSuccess = (data: any): IActionCreator => {
@@ -24,28 +26,38 @@ export const fetchDataSuccess = (data: any): IActionCreator => {
     }
 }
 
-
-export const fetchDataRejected = (error: any): IActionCreator => {
+export const fetchDataRejected = (error: string): IActionCreator => {
     return {
         type: GET_COCKTAILS_REJECTED,
-        payload: error,
+        payload: {drinks: [], error},
         loading: false,
+        drinks: [],
+    }
+};
+
+
+export const clearCocktails = (): IActionCreator => {
+    return {
+        type: CLEAR_COCKTAILS,
+        payload: { drinks: [],},
+        loading: false,
+        drinks: [],
     }
 };
 
 export const getCocktails = (criteria?: string) => {
     return (dispatch) => {
         dispatch(fetchData(true));
-        fetch(`${API_URL}${(criteria) ? `s=${criteria}` : ``}`)
-            .then(isOk)
-            .then((data) => {
-                (isEmptySearch(data.drinks))
-                    ? dispatch(fetchDataRejected('Not found'))
-                    : dispatch(fetchDataSuccess(data.drinks))
+        const suggestions = getCocktailsSuggestions(criteria)
+            .then((drinks) => {
+                dispatch(drinks.length <= 0 
+                    ? fetchDataRejected('not found')
+                    : fetchDataSuccess(drinks)
+                );
+            });
 
-                console.log(data.drinks);
-                return data.drinks;
-
-            }).catch(error => dispatch(fetchDataRejected(error)))
+        return suggestions;
     }
 }
+
+export const cleanCocktails = () => (dispatch) => dispatch(clearCocktails)
