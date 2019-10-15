@@ -3,3 +3,7 @@ export interface ICocktail {
     strDrinkThumb: string;
     strDrink: string;
 }
+
+export interface IDrink {
+    drinks: ICocktail[];
+}
