@@ -7,10 +7,9 @@ import { NavigationStackOptions } from 'react-navigation-stack';
 export interface ICocktailScreenProps extends NavigationNavigatorProps {
     cocktails: any[];
     loading: boolean;
-    error: any;
-    navigation: any; //let's keep as `any` for now to avoid linting errors
+    error: string;
     navigationOptions: NavigationStackOptions;
-    getCocktails: (criteria: string) => any;
+    getCocktails: (criteria: string) => void;
     clearCocktails: () => void;
 }
 
